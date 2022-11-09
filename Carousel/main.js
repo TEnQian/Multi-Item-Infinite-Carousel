@@ -37,10 +37,13 @@ jQuery(document).ready(function($){
             //Get initial slider item
             const originalItem = document.querySelectorAll('.item');
             
-            for(let i = 0; i<originalItem.length; i++){
-                var li = '<div class="slider-dot"></div>';
-                $(li).appendTo('.slider-dots-wrapper')
+            if(current === undefined){
+                for(let i = 0; i<originalItem.length; i++){
+                    var li = '<div class="slider-dot"></div>';
+                    $(li).appendTo('.slider-dots-wrapper')
+                }
             }
+
         
             //Clone slider item
             //Add 'cloned-item' class to cloned item to differentiate cloned item and real item
@@ -227,7 +230,6 @@ jQuery(document).ready(function($){
     $(window).on('resize',function(){   
     
         //Remove cloned item
-        $('.slider-dot').remove();
         $('.cloned-item').remove();
         var current  =  1;
         //Tell the sliderSize() function there is a current slide
