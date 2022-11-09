@@ -63,10 +63,11 @@ function sliderSize(current){
 
         if(current){
             //Set active slide to current slide (after window resize)
-            var currentSlide = $('.item.active').not('.cloned-item');
-            let index = $(item).index(currentSlide);
+                
+            var currentSlide = $('.item.active').not('.cloned-item'); //Get slide item with 'active' class and is not a cloned item
+            let index = $(item).index(currentSlide); //Get this slide item index in the slider
             var startSlide = index * divideWidth;
-            $('.slider').css('transform','translateX(-'+startSlide+'px)');
+            $('.slider').css('transform','translateX(-'+startSlide+'px)'); //Let slider scroll to this item
             activeSlide = index;
         }
 
