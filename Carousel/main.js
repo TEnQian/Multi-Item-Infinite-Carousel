@@ -1,5 +1,10 @@
 jQuery(document).ready(function($){
 
+    var date = new Date();
+    let thisYear = date.getFullYear();
+    var copyrightText = `${$('.copyright').text() + thisYear} Copyright`;
+    $('.copyright').text(copyrightText);
+
     //Set breakpoint
     let tab = 1024;
     let mobile = 767;
@@ -65,59 +70,75 @@ jQuery(document).ready(function($){
     //Add 'active' class to active item
     $(item[active]).addClass('active');
 
+    let direction = 1;
     //On click function of next button
     $('.next-btn').click(function(){
-        $('.next-btn').addClass('disabled'); //Disabled click event to prevent multiple click on the same time
-        $('.slider').css('transition','all 0.3s ease-out'); //Add transition effect for slider
-            var next = active + 1; //Get next slide
-            var nextSlide = divideWidth * next; //Get scroll width
-            $('.slider').css('transform','translateX(-'+nextSlide+'px)'); //Scroll to next slide
-            active = active + 1; //Active slide + 1
-            setTimeout(function(){
-                $('.slider').css('transition',''); //Remove transition effect
-
-                //Inifinity scroll function
-                if(active === item.length - numberOfSlide){
-                    var nextSlide = divideWidth * numberOfSlide;
-                    $('.slider').css('transform','translateX(-'+nextSlide+'px)');
-                    active = numberOfSlide;
-                }
-                $('.item').removeClass('active');
-                $(item[active]).addClass('active');
-                $('.next-btn').removeClass('disabled'); //Enable button click event
-            },300);
+        let a = 1;
+       runTheSlide(a)
     })
 
     //On click function of previous button
     $('.prev-btn').click(function(){
-        $('.prev-btn').addClass('disabled'); //Disabled click event to prevent multiple click on the same time
-        $('.slider').css('transition','all 0.3s ease-out'); //Add transition effect for slider
-        var prev = active - 1; //Get previous slide
-        var prevSlide = divideWidth * prev; //Get scroll width
-        $('.slider').css('transform','translateX(-'+prevSlide+'px)');  //Scroll to previous slide
-        active = active - 1; //Active slide - 1
-        setTimeout(function(){
-            $('.slider').css('transition','');//Remove transition effect
-
-            //Inifinity scroll function
-            if(active === numberOfSlide - 1){
-                var theSlide = item.length - numberOfSlide - 1;
-                var prevSlide = divideWidth * theSlide;
-                $('.slider').css('transform','translateX(-'+prevSlide+'px)');
-                active = theSlide;
-            }
-            $('.item').removeClass('active');
-            $(item[active]).addClass('active');
-            $('.prev-btn').removeClass('disabled'); //Enable button click event
-        },300);  
+       let a = -1;
+       runTheSlide(a);
     })
+
+    function runTheSlide(direction){
+        //Move Backward
+        if(direction === -1){
+            $('.slide-btn').addClass('disabled'); //Disabled click event to prevent multiple click on the same time
+            $('.slider').css('transition','all 0.3s ease-out'); //Add transition effect for slider
+            var prev = active - 1; //Get previous slide
+            var prevSlide = divideWidth * prev; //Get scroll width
+            $('.slider').css('transform','translateX(-'+prevSlide+'px)');  //Scroll to previous slide
+            active = active - 1; //Active slide - 1
+            setTimeout(function(){
+                $('.slider').css('transition','');//Remove transition effect
+    
+                //Inifinity scroll function
+                if(active === numberOfSlide - 1){
+                    var theSlide = item.length - numberOfSlide - 1;
+                    var prevSlide = divideWidth * theSlide;
+                    $('.slider').css('transform','translateX(-'+prevSlide+'px)');
+                    active = theSlide;
+                }
+                $('.item').removeClass('active');
+                $(item[active]).addClass('active');
+                $('.slide-btn').removeClass('disabled'); //Enable button click event
+            },300);  
+        }
+
+        //Move Forward
+        else{
+            $('.slide-btn').addClass('disabled'); //Disabled click event to prevent multiple click on the same time
+            $('.slider').css('transition','all 0.3s ease-out'); //Add transition effect for slider
+                var next = active + 1; //Get next slide
+                var nextSlide = divideWidth * next; //Get scroll width
+                $('.slider').css('transform','translateX(-'+nextSlide+'px)'); //Scroll to next slide
+                active = active + 1; //Active slide + 1
+                setTimeout(function(){
+                    $('.slider').css('transition',''); //Remove transition effect
+    
+                    //Inifinity scroll function
+                    if(active === item.length - numberOfSlide){
+                        var nextSlide = divideWidth * numberOfSlide;
+                        $('.slider').css('transform','translateX(-'+nextSlide+'px)');
+                        active = numberOfSlide;
+                    }
+                    $('.item').removeClass('active');
+                    $(item[active]).addClass('active');
+                    $('.slide-btn').removeClass('disabled'); //Enable button click event
+                },300);
+        }
+    }
 
     var autoInterval;
 
     //Auto slide function
     function autoSlide(){
         autoInterval =  setInterval(function(){
-            $('.next-btn').trigger('click');
+            let a = 1;
+            runTheSlide(a);
         },auto_slide_time);
     }
 
@@ -166,5 +187,5 @@ $(window).resize(function(){
     },100);
     var resizeSlide = active * divideWidth;
     $('.slider').css('transform','translateX(-'+resizeSlide+'px)');
-})
+});
 });
