@@ -3,4 +3,3 @@
 Infinity Scroll Carousel with Multi Item
 
 *Learning Purpose
-*Pray for no bug
