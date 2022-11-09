@@ -131,6 +131,6 @@ width:100%;
     display:none;
 }
 
-.prev-btn.disabled, .next-btn.disabled{
+.slide-btn.disabled{
     pointer-events: none;
 }
