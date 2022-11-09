@@ -1,5 +1,6 @@
 //Can be apply to elementor post widget
 //Create 'prev-btn' and 'next-btn' for user
+//Add 'slide-btn' for both next and prev button
 
 jQuery(document).ready(function($){
 
@@ -70,59 +71,75 @@ jQuery(document).ready(function($){
     //Add 'active' class to active item
     $(item[active]).addClass('active');
 
+    let direction = 1;
     //On click function of next button
     $('.next-btn').click(function(){
-        $('.next-btn').addClass('disabled'); //Disabled click event to prevent multiple click on the same time
-        $(container).css('transition','all 0.3s ease-out'); //Add transition effect for slider
-            var next = active + 1; //Get next slide
-            var nextSlide = divideWidth * next; //Get scroll width
-            $(container).css('transform','translateX(-'+nextSlide+'px)'); //Scroll to next slide
-            active = active + 1; //Active slide + 1
-            setTimeout(function(){
-                $(container).css('transition',''); //Remove transition effect
-
-                //Inifinity scroll function
-                if(active === item.length - numberOfSlide){
-                    var nextSlide = divideWidth * numberOfSlide;
-                    $(container).css('transform','translateX(-'+nextSlide+'px)');
-                    active = numberOfSlide;
-                }
-                $(container).removeClass('active');
-                $(item[active]).addClass('active');
-                $('.next-btn').removeClass('disabled'); //Enable button click event
-            },300);
+        direction = 1;
+       runTheSlide(direction)
     })
 
     //On click function of previous button
     $('.prev-btn').click(function(){
-        $('.prev-btn').addClass('disabled'); //Disabled click event to prevent multiple click on the same time
-        $(container).css('transition','all 0.3s ease-out'); //Add transition effect for slider
-        var prev = active - 1; //Get previous slide
-        var prevSlide = divideWidth * prev; //Get scroll width
-        $(container).css('transform','translateX(-'+prevSlide+'px)');  //Scroll to previous slide
-        active = active - 1; //Active slide - 1
-        setTimeout(function(){
-            $(container).css('transition','');//Remove transition effect
-
-            //Inifinity scroll function
-            if(active === numberOfSlide - 1){
-                var theSlide = item.length - numberOfSlide - 1;
-                var prevSlide = divideWidth * theSlide;
-                $(container).css('transform','translateX(-'+prevSlide+'px)');
-                active = theSlide;
-            }
-            $(articleItem).removeClass('active');
-            $(item[active]).addClass('active');
-            $('.prev-btn').removeClass('disabled'); //Enable button click event
-        },300);  
+       direction = -1;
+       runTheSlide(direction);
     })
+
+    function runTheSlide(direction){
+        //Move Backward
+        if(direction === -1){
+            $(container).addClass('disabled'); //Disabled click event to prevent multiple click on the same time
+            $('.slider').css('transition','all 0.3s ease-out'); //Add transition effect for slider
+            var prev = active - 1; //Get previous slide
+            var prevSlide = divideWidth * prev; //Get scroll width
+            $(container).css('transform','translateX(-'+prevSlide+'px)');  //Scroll to previous slide
+            active = active - 1; //Active slide - 1
+            setTimeout(function(){
+                $(container).css('transition','');//Remove transition effect
+    
+                //Inifinity scroll function
+                if(active === numberOfSlide - 1){
+                    var theSlide = item.length - numberOfSlide - 1;
+                    var prevSlide = divideWidth * theSlide;
+                    $(container).css('transform','translateX(-'+prevSlide+'px)');
+                    active = theSlide;
+                }
+                $(articleItem).removeClass('active');
+                $(item[active]).addClass('active');
+                $('.slide-btn').removeClass('disabled'); //Enable button click event
+            },300);  
+        }
+
+        //Move Forward
+        else{
+            $('.slide-btn').addClass('disabled'); //Disabled click event to prevent multiple click on the same time
+            $(container).css('transition','all 0.3s ease-out'); //Add transition effect for slider
+                var next = active + 1; //Get next slide
+                var nextSlide = divideWidth * next; //Get scroll width
+                $(container).css('transform','translateX(-'+nextSlide+'px)'); //Scroll to next slide
+                active = active + 1; //Active slide + 1
+                setTimeout(function(){
+                    $('.slider').css('transition',''); //Remove transition effect
+    
+                    //Inifinity scroll function
+                    if(active === item.length - numberOfSlide){
+                        var nextSlide = divideWidth * numberOfSlide;
+                        $(container).css('transform','translateX(-'+nextSlide+'px)');
+                        active = numberOfSlide;
+                    }
+                    $(articleItem).removeClass('active');
+                    $(item[active]).addClass('active');
+                    $('.slide-btn').removeClass('disabled'); //Enable button click event
+                },300);
+        }
+    }
 
     var autoInterval;
 
     //Auto slide function
     function autoSlide(){
         autoInterval =  setInterval(function(){
-            $('.next-btn').trigger('click');
+            let a = 1;
+            runTheSlide(a);
         },auto_slide_time);
     }
 
