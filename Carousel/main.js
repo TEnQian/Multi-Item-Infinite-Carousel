@@ -1,10 +1,4 @@
 jQuery(document).ready(function($){
-
-    var date = new Date();
-    let thisYear = date.getFullYear();
-    var copyrightText = `${$('.copyright').text() + thisYear} Copyright`;
-    $('.copyright').text(copyrightText);
-
     //Set breakpoint
     let tab = 1024;
     let mobile = 767;
